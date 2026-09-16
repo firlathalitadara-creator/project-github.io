@@ -1,227 +1,310 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Biodata Siswa | Absensi RFID</title>
+    <title>Biodata Siswa | Smart Attendance System</title>
 
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background:
-                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.08) 0 70px, transparent 71px),
-                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.07) 0 100px, transparent 101px),
-                linear-gradient(135deg, #071a2f, #12395b, #071a2f);
             min-height: 100vh;
-            color: #172b3f;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 25px;
+
+            background:
+                radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255,255,255,0.06), transparent 30%),
+                linear-gradient(135deg, #071a3d, #102d5c, #06152f);
+
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
         }
 
         .card {
-            width: 100%;
-            max-width: 600px;
-            background: #f8f1df;
-            border-radius: 28px;
-            padding: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
             position: relative;
             overflow: hidden;
+
+            background: linear-gradient(145deg, #fffaf0, #f4ead7);
+            border-radius: 32px;
+            padding: 28px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+
+            animation: appear 0.6s ease;
         }
 
         .card::before {
             content: "";
             position: absolute;
-            width: 170px;
-            height: 170px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            background: rgba(28, 74, 112, 0.08);
-            top: -70px;
-            right: -60px;
+            background: rgba(15, 45, 91, 0.06);
+            top: -90px;
+            right: -70px;
         }
 
         .card::after {
             content: "";
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            background: rgba(28, 74, 112, 0.06);
-            bottom: -40px;
-            left: -30px;
+            background: rgba(15, 45, 91, 0.04);
+            bottom: -70px;
+            left: -50px;
         }
 
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* HEADER */
         .header {
-            text-align: center;
             position: relative;
             z-index: 2;
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            margin-bottom: 28px;
         }
 
-        .check {
-            width: 70px;
-            height: 70px;
-            margin: auto;
-            border-radius: 50%;
-            background: #173e60;
-            color: white;
-            font-size: 38px;
+        .logo {
+            width: 55px;
+            height: 55px;
+            flex-shrink: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 17px;
+
+            background: linear-gradient(135deg, #081b3d, #173f79);
+
+            color: #fffaf0;
+            font-size: 26px;
+            font-weight: bold;
+
+            box-shadow: 0 8px 20px rgba(8, 27, 61, 0.25);
+        }
+
+        .header-text h1 {
+            color: #081b3d;
+            font-size: 24px;
+            margin-bottom: 3px;
+        }
+
+        .header-text p {
+            color: #6e6a61;
+            font-size: 13px;
+        }
+
+        /* TITLE */
+        .title-section {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .success-icon {
+            width: 76px;
+            height: 76px;
+
+            margin: 0 auto 15px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(23,62,96,0.3);
-        }
 
-        h1 {
-            margin-top: 15px;
-            color: #173e60;
-            font-size: 25px;
-        }
+            border-radius: 50%;
 
-        .subtitle {
-            margin-top: 7px;
-            color: #667585;
-            font-size: 14px;
-        }
+            background: linear-gradient(135deg, #102f60, #214e91);
 
-        .badge {
-            display: inline-block;
-            margin-top: 16px;
-            background: #173e60;
             color: white;
-            padding: 9px 18px;
-            border-radius: 30px;
-            font-size: 12px;
+            font-size: 39px;
             font-weight: bold;
-            letter-spacing: 0.5px;
+
+            box-shadow:
+                0 12px 25px rgba(16, 47, 96, 0.25),
+                inset 0 2px 5px rgba(255,255,255,0.2);
         }
 
-        .profile {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-top: 28px;
-            padding: 20px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 7px 18px rgba(0,0,0,0.08);
-            position: relative;
-            z-index: 2;
+        .title-section h2 {
+            color: #081b3d;
+            font-size: 23px;
+            margin-bottom: 7px;
         }
 
-        .profile img {
-            width: 100px;
-            height: 125px;
-            object-fit: cover;
-            border-radius: 15px;
-            border: 4px solid #173e60;
-        }
-
-        .profile h2 {
-            color: #173e60;
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .profile p {
-            color: #667585;
+        .title-section p {
+            color: #777166;
             font-size: 13px;
-            margin: 4px 0;
         }
 
-        .info {
-            margin-top: 20px;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
+        /* PROFILE */
+        .profile-card {
             position: relative;
             z-index: 2;
-        }
 
-        .info-title {
-            color: #173e60;
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .row {
             display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 10px 0;
-            border-bottom: 1px solid #e7e1d4;
-            font-size: 14px;
+            align-items: center;
+            gap: 18px;
+
+            padding: 18px;
+
+            background: #fffdf8;
+            border: 1px solid rgba(8, 27, 61, 0.08);
+
+            border-radius: 22px;
+
+            box-shadow: 0 8px 25px rgba(8, 27, 61, 0.08);
+
+            margin-bottom: 20px;
         }
 
-        .row:last-child {
-            border-bottom: none;
+        .profile-photo {
+            width: 85px;
+            height: 85px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+            object-fit: cover;
+
+            border: 5px solid #eef1f5;
+
+            background: #dfe5ed;
+        }
+
+        .profile-info h3 {
+            color: #081b3d;
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .profile-info p {
+            color: #777166;
+            font-size: 13px;
+        }
+
+        /* DATA */
+        .data-grid {
+            position: relative;
+            z-index: 2;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+
+            margin-bottom: 20px;
+        }
+
+        .data-box {
+            background: #fffdf8;
+
+            border: 1px solid rgba(8, 27, 61, 0.08);
+
+            border-radius: 17px;
+            padding: 15px;
+
+            box-shadow: 0 6px 15px rgba(8, 27, 61, 0.06);
+        }
+
+        .data-box.full {
+            grid-column: span 2;
         }
 
         .label {
-            color: #7b8792;
+            display: block;
+
+            color: #8a8479;
+            font-size: 11px;
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
         }
 
         .value {
+            color: #102d5c;
+            font-size: 15px;
             font-weight: bold;
-            color: #173e60;
-            text-align: right;
         }
 
-        .hadir {
-            color: #26734d;
-        }
-
-        .button {
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            background: #173e60;
-            color: white;
-            padding: 14px;
-            border-radius: 14px;
-            margin-top: 22px;
-            font-weight: bold;
-            position: relative;
-            z-index: 2;
-            transition: 0.2s;
-        }
-
-        .button:hover {
-            transform: translateY(-2px);
-            background: #0e2c47;
-        }
-
+        /* FOOTER */
         .footer {
-            text-align: center;
-            margin-top: 18px;
-            color: #7b8792;
-            font-size: 12px;
             position: relative;
             z-index: 2;
+
+            text-align: center;
+
+            margin-top: 8px;
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(8, 27, 61, 0.10);
         }
 
+        .footer p {
+            color: #7b766d;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .footer strong {
+            color: #102d5c;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 500px) {
             .card {
                 padding: 22px;
+                border-radius: 27px;
             }
 
-            .profile {
-                flex-direction: column;
-                text-align: center;
+            .profile-card {
+                padding: 15px;
             }
 
-            .row {
-                font-size: 13px;
+            .profile-photo {
+                width: 75px;
+                height: 75px;
+            }
+
+            .profile-info h3 {
+                font-size: 18px;
+            }
+
+            .data-grid {
+                gap: 10px;
             }
         }
     </style>
@@ -229,111 +312,169 @@
 
 <body>
 
-    <div class="card">
+    <div class="container">
 
-        <div class="header">
-            <div class="check">✓</div>
+        <div class="card">
 
-            <h1>Kartu Berhasil di-Tap!</h1>
+            <!-- HEADER -->
+            <div class="header">
+                <div class="logo">✓</div>
 
-            <p class="subtitle">
-                Data absensi siswa berhasil ditemukan
-            </p>
-
-            <div class="badge">
-                ✓ ABSENSI BERHASIL
+                <div class="header-text">
+                    <h1>Absensi Siswa</h1>
+                    <p>Smart Attendance System</p>
+                </div>
             </div>
-        </div>
 
-        <div class="profile">
-            <img src="img/foto-siswa.jpg" alt="Foto Siswa">
 
-            <div>
-                <h2 id="nama">Firla Thalita Dara</h2>
+            <!-- TITLE -->
+            <div class="title-section">
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+                <h2>Biodata Siswa</h2>
+
+                <p>Data siswa dari hasil scan QR Code</p>
+
+            </div>
+
+
+            <!-- PROFILE -->
+            <div class="profile-card">
+
+                <img
+                    src="foto-siswa.jpg"
+                    alt="Foto Siswa"
+                    class="profile-photo"
+                >
+
+                <div class="profile-info">
+
+                    <h3 id="namaSiswa">
+                        Nama Siswa
+                    </h3>
+
+                    <p>
+                        Siswa Aktif • SMK Nusantara 1
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DATA -->
+            <div class="data-grid">
+
+                <div class="data-box">
+
+                    <span class="label">
+                        Nomor Antrian
+                    </span>
+
+                    <span class="value" id="antrianSiswa">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="data-box">
+
+                    <span class="label">
+                        Kelas
+                    </span>
+
+                    <span class="value" id="kelasSiswa">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="data-box full">
+
+                    <span class="label">
+                        Jurusan
+                    </span>
+
+                    <span class="value" id="jurusanSiswa">
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+            <div class="footer">
 
                 <p>
-                    <b>Kelas:</b>
-                    <span id="kelas">XI RPL</span>
+                    Biodata ini ditampilkan melalui
+                    <strong>QR Code Absensi</strong>
                 </p>
 
                 <p>
-                    <b>Jurusan:</b>
-                    <span id="jurusan">RPL</span>
+                    Smart Attendance System • SMK Nusantara 1
                 </p>
-            </div>
-        </div>
 
-        <div class="info">
-
-            <div class="info-title">
-                📋 Informasi Absensi
             </div>
 
-            <div class="row">
-                <span class="label">Nomor Kartu</span>
-                <span class="value" id="kartu">20260914001</span>
-            </div>
-
-            <div class="row">
-                <span class="label">Nomor Urut</span>
-                <span class="value" id="urut">01</span>
-            </div>
-
-            <div class="row">
-                <span class="label">Tanggal</span>
-                <span class="value" id="tanggal">-</span>
-            </div>
-
-            <div class="row">
-                <span class="label">Waktu Tap</span>
-                <span class="value" id="waktu">-</span>
-            </div>
-
-            <div class="row">
-                <span class="label">Status</span>
-                <span class="value hadir" id="status">HADIR</span>
-            </div>
-
-        </div>
-
-        <a href="index.html" class="button">
-            ← Kembali ke Halaman Tap
-        </a>
-
-        <div class="footer">
-            Sistem Absensi RFID • SMK Nusantara 1
         </div>
 
     </div>
 
+
     <script>
-        const params = new URLSearchParams(window.location.search);
 
-        document.getElementById("nama").textContent =
-            params.get("nama") || "Firla Thalita Dara";
+        /*
+        ==========================================
+        MENGAMBIL DATA DARI LINK QR
+        ==========================================
 
-        document.getElementById("kartu").textContent =
-            params.get("kartu") || "20260914001";
+        Contoh link:
 
-        document.getElementById("kelas").textContent =
-            params.get("kelas") || "XI RPL";
+        biodata.html?
+        nama=Firla
+        &antrian=04
+        &kelas=XI
+        &jurusan=RPL
+        */
 
-        document.getElementById("jurusan").textContent =
-            params.get("jurusan") || "RPL";
+        const params = new URLSearchParams(
+            window.location.search
+        );
 
-        document.getElementById("urut").textContent =
-            params.get("urut") || "01";
 
-        document.getElementById("tanggal").textContent =
-            params.get("tanggal") || "-";
+        const nama =
+            params.get("nama") || "Nama Siswa";
 
-        document.getElementById("waktu").textContent =
-            params.get("waktu") || "-";
+        const antrian =
+            params.get("antrian") || "-";
 
-        document.getElementById("status").textContent =
-            params.get("status") || "HADIR";
+        const kelas =
+            params.get("kelas") || "-";
+
+        const jurusan =
+            params.get("jurusan") || "-";
+
+
+        document.getElementById("namaSiswa").innerText =
+            nama;
+
+        document.getElementById("antrianSiswa").innerText =
+            antrian;
+
+        document.getElementById("kelasSiswa").innerText =
+            kelas;
+
+        document.getElementById("jurusanSiswa").innerText =
+            jurusan;
+
     </script>
 
 </body>
 </html>
-```
